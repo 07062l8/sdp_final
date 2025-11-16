@@ -4,12 +4,12 @@ public class Main {
     public static void main(String[] args) {
         RestaurantFacade facade = new RestaurantFacade();
 
-        // ===== Сценарий 1: Отдельные заказы =====
+        //Scenario 1: Individual Orders
         System.out.println("=== Individual Orders ===");
 
         double totalIndividual = 0.0;
 
-        // Заказ 1: Burger
+        // Order 1: Burger
         List<String> burgerToppings = Arrays.asList("cheese", "sauce");
         DiscountStrategy burgerDiscount = new StudentDiscount();
         Meal burger = facade.buildMeal("burger", burgerToppings);
@@ -18,7 +18,7 @@ public class Main {
         facade.placeOrder("burger", burgerToppings, burgerDiscount);
         System.out.println(String.format("Burger Order Total: $%.2f\n", burgerCost));
 
-        // Заказ 2: Salad
+        // Order 2: Salad
         List<String> saladToppings = Arrays.asList("spices");
         DiscountStrategy saladDiscount = new TimeDiscount();
         Meal salad = facade.buildMeal("salad", saladToppings);
@@ -29,7 +29,7 @@ public class Main {
 
         System.out.println(String.format("Total for Individual Orders: $%.2f\n", totalIndividual));
 
-        // ===== Сценарий 2: Один большой заказ =====
+        // Scenario 2: One Big Order
         System.out.println("=== Grouped Multi-Item Order ===");
 
         List<OrderRequest> groupOrder = new ArrayList<>();
@@ -49,7 +49,7 @@ public class Main {
 
         System.out.println(String.format("\nSubtotal for Grouped Order: $%.2f", totalGrouped));
 
-        // ===== Применяем SumDiscount к общей сумме =====
+        // Apply SumDiscount to the total
         DiscountStrategy finalGroupDiscount = new SumDiscount();
         double finalGroupedCost = finalGroupDiscount.applyDiscount(totalGrouped);
         System.out.println(String.format("Grouped Order with SumDiscount: $%.2f\n", finalGroupedCost));

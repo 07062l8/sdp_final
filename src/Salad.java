@@ -2,7 +2,7 @@
 public class Salad extends Meal {
     @Override
     public String getDescription() {
-        return "Salad";
+        return "Salad🥗";
     }
 
     @Override

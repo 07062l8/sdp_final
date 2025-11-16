@@ -1,7 +1,7 @@
 public class Pizza extends Meal {
     @Override
     public String getDescription() {
-        return "Pizza";
+        return "Pizza🍕";
     }
 
     @Override

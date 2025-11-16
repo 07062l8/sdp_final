@@ -6,7 +6,7 @@ public class SpiceDecorator extends MealDecorator {
 
     @Override
     public String getDescription() {
-        return baseMeal.getDescription() + " + Spices";
+        return baseMeal.getDescription() + " + Spices🌶️";
     }
 
     @Override
