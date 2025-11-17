@@ -44,14 +44,14 @@ public class Main {
             double cost = request.discount.applyDiscount(meal.getCost());
             totalGrouped += cost;
             facade.placeOrder(request.type, request.toppings, request.discount);
-            System.out.println(String.format("%s | Final Price: $%.2f", meal.getDescription(), cost));
+            System.out.printf("%s | Final Price: $%.2f%n", meal.getDescription(), cost);
         }
 
-        System.out.println(String.format("\nSubtotal for Grouped Order: $%.2f", totalGrouped));
+        System.out.printf("\nSubtotal for Grouped Order: $%.2f%n", totalGrouped);
 
         // Apply SumDiscount to the total
         DiscountStrategy finalGroupDiscount = new SumDiscount();
         double finalGroupedCost = finalGroupDiscount.applyDiscount(totalGrouped);
-        System.out.println(String.format("Grouped Order with SumDiscount: $%.2f\n", finalGroupedCost));
+        System.out.printf("Grouped Order with SumDiscount: $%.2f\n%n", finalGroupedCost);
     }
 }
