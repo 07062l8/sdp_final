@@ -11,6 +11,7 @@ public class Main {
 
         // Order 1: Burger
         List<String> burgerToppings = Arrays.asList("cheese", "sauce");
+
         DiscountStrategy burgerDiscount = new StudentDiscount();
         double burgerCost = facade.placeAndPriceOrder("burger", burgerToppings, burgerDiscount);
         totalIndividual += burgerCost;
@@ -37,18 +38,7 @@ public class Main {
         groupOrder.add(new OrderRequest("steak", Arrays.asList("sauce", "cheese"), new TimeDiscount()));
         groupOrder.add(new OrderRequest("pasta", Arrays.asList("sauce", "spices"), new StudentDiscount()));
 
-        double totalGrouped = 0.0;
-
-        for (OrderRequest request : groupOrder) {
-            Meal meal = facade.buildMeal(request.type, request.toppings);
-            double cost = request.discount.applyDiscount(meal.getCost());
-            totalGrouped += cost;
-            facade.placeOrder(request.type, request.toppings, request.discount);
-
-            String discountType = request.discount.getClass().getSimpleName();
-            System.out.printf("%s | Final Price: $%.2f | Discount: %s%n", meal.getDescription(), cost, discountType);
-        }
-
+        double totalGrouped = facade.placeMultipleOrders(groupOrder);
         System.out.printf("Total for Grouped Orders: $%.2f%n", totalGrouped);
 
 

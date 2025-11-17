@@ -1,16 +1,9 @@
 import java.util.List;
-
-// Facade class that simplifies the process of placing a restaurant order.
-// It integrates Factory, Decorator, Strategy, Observer, and Singleton patterns.
-
 public class RestaurantFacade {
 
     private MealFactory factory;
     private OrderSubject subject;
     private OrderManager manager;
-
-     // Constructor initializes factory, subject, and singleton manager.
-     // Also registers default observers.
 
     public RestaurantFacade() {
         factory = new MealFactory();
@@ -23,7 +16,6 @@ public class RestaurantFacade {
         subject.addObserver(new WaiterObserver());
     }
 
-     // Places an order with specified meal type, toppings, and discount strategy.
     public void placeOrder(String type, List<String> toppings, DiscountStrategy discount) {
         try {
             // Create base meal using factory
@@ -53,7 +45,7 @@ public class RestaurantFacade {
             manager.addOrder(meal);
 
             // Notify observers
-            String status = String.format("Order placed: %s", meal.getDescription());
+            String status = String.format("Order placed: %s | Final cost: $%.2f", meal.getDescription(), finalCost);
             subject.notifyObservers(status);
 
         } catch (IllegalArgumentException e) {
@@ -61,11 +53,24 @@ public class RestaurantFacade {
         }
     }
 
-    public void placeMultipleOrders(List<OrderRequest> requests) {
+    public double placeMultipleOrders(List<OrderRequest> requests) {
+        double total = 0.0;
+
         for (OrderRequest request : requests) {
-            placeOrder(request.type, request.toppings, request.discount);
+            Meal meal = buildMeal(request.type, request.toppings);
+            double cost = request.discount.applyDiscount(meal.getCost());
+            total += cost;
+
+            OrderManager.getInstance().addOrder(meal);
+            subject.notifyObservers("New order: " + meal.getDescription());
+
+            String discountType = request.discount.getClass().getSimpleName();
+            System.out.printf("%s | Final Price: $%.2f | Discount: %s%n", meal.getDescription(), cost, discountType);
         }
+
+        return total;
     }
+
 
     public Meal buildMeal(String type, List<String> toppings) {
         Meal meal = factory.createMeal(type);
