@@ -15,7 +15,7 @@ public class Main {
         DiscountStrategy burgerDiscount = new StudentDiscount();
         double burgerCost = facade.placeAndPriceOrder("burger", burgerToppings, burgerDiscount);
         totalIndividual += burgerCost;
-        System.out.println(String.format("Burger Order Total: $%.2f | Discount: %s\n", burgerCost, burgerDiscount.getClass().getSimpleName()));
+        System.out.printf("Burger Order Total: $%.2f | Discount: %s\n%n", burgerCost, burgerDiscount.getClass().getSimpleName());
 
 
         // Order 2: Salad
@@ -28,7 +28,7 @@ public class Main {
         System.out.printf("Salad Order Total: $%.2f | Discount: %s\n%n", saladCost, saladDiscount.getClass().getSimpleName());
 
 
-        System.out.println(String.format("Total for Individual Orders: $%.2f\n", totalIndividual));
+        System.out.printf("Total for Individual Orders: $%.2f\n%n", totalIndividual);
 
         // Scenario 2: One Big Order
         System.out.println("=== Grouped Multi-Item Order ===");
