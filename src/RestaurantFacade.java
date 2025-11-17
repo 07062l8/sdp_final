@@ -79,4 +79,12 @@ public class RestaurantFacade {
         return meal;
     }
 
+    public double placeAndPriceOrder(String type, List<String> toppings, DiscountStrategy discount) {
+        Meal meal = buildMeal(type, toppings);
+        double finalCost = discount.applyDiscount(meal.getCost());
+        OrderManager.getInstance().addOrder(meal);
+        subject.notifyObservers("New order: " + meal.getDescription());
+        return finalCost;
+    }
+
 }

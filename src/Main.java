@@ -12,11 +12,10 @@ public class Main {
         // Order 1: Burger
         List<String> burgerToppings = Arrays.asList("cheese", "sauce");
         DiscountStrategy burgerDiscount = new StudentDiscount();
-        Meal burger = facade.buildMeal("burger", burgerToppings);
-        double burgerCost = burgerDiscount.applyDiscount(burger.getCost());
+        double burgerCost = facade.placeAndPriceOrder("burger", burgerToppings, burgerDiscount);
         totalIndividual += burgerCost;
-        facade.placeOrder("burger", burgerToppings, burgerDiscount);
-        System.out.println(String.format("Burger Order Total: $%.2f\n", burgerCost));
+        System.out.println(String.format("Burger Order Total: $%.2f | Discount: %s\n", burgerCost, burgerDiscount.getClass().getSimpleName()));
+
 
         // Order 2: Salad
         List<String> saladToppings = Arrays.asList("spices");
@@ -25,7 +24,8 @@ public class Main {
         double saladCost = saladDiscount.applyDiscount(salad.getCost());
         totalIndividual += saladCost;
         facade.placeOrder("salad", saladToppings, saladDiscount);
-        System.out.println(String.format("Salad Order Total: $%.2f\n", saladCost));
+        System.out.printf("Salad Order Total: $%.2f | Discount: %s\n%n", saladCost, saladDiscount.getClass().getSimpleName());
+
 
         System.out.println(String.format("Total for Individual Orders: $%.2f\n", totalIndividual));
 
@@ -44,10 +44,13 @@ public class Main {
             double cost = request.discount.applyDiscount(meal.getCost());
             totalGrouped += cost;
             facade.placeOrder(request.type, request.toppings, request.discount);
-            System.out.printf("%s | Final Price: $%.2f%n", meal.getDescription(), cost);
+
+            String discountType = request.discount.getClass().getSimpleName();
+            System.out.printf("%s | Final Price: $%.2f | Discount: %s%n", meal.getDescription(), cost, discountType);
         }
 
-        System.out.printf("\nSubtotal for Grouped Order: $%.2f%n", totalGrouped);
+        System.out.printf("Total for Grouped Orders: $%.2f%n", totalGrouped);
+
 
         // Apply SumDiscount to the total
         DiscountStrategy finalGroupDiscount = new SumDiscount();
